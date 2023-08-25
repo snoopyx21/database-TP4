@@ -1,0 +1,51 @@
+create or replace view circuit_pas_cher (nc,prix) as select nc, prix from L2I_Circuit where prix<200;
+
+select view_name from user_views;
+
+insert into circuit_pas_cher values (11,100);
+insert into circuit_pas_cher values (11,100)
+            *
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+create table mon_circuit as select * from L2I_circuit;
+
+create or replace view circuit_pas_cher (nc,prix) as select nc,prix from mon_circuit where prix <200;
+
+insert into circuit_pas_cher values (11,100); 
+
+update circuit_pas_cher set prix=300 where nc=2
+
+create or replace view circuit_pas_cher (nc,prix) as select nc,prix from mon_circuit where prix <200 with check option;
+
+update circuit_pas_cher set prix=300 where nc=4;                      
+update circuit_pas_cher set prix=300 where nc=4
+       *
+ERROR at line 1:
+ORA-01402: view WITH CHECK OPTION where-clause violation
+
+create or replace view circuit_anglais as select distinct nc from mon_ciretape where vilet in (select nomv from L2I_ville where pays='Angleterre');
+
+insert into circuit_anglais values (11);
+insert into circuit_anglais values (11)
+            *
+ERROR at line 1:
+ORA-01732: data manipulation operation not legal on this view
+
+grant select on mon_circuit_m to nathan_roth;
+select * from nathan_roth.mon_circuit_n;
+
+grant select on circuit_pas_cher_m to nathan_roth;
+
+select distinct table_name from all_tab_privs where grantor='MORGANERITTER';
+
+commit; 
+ grant select on circuit_pas_cher_m to zerger; 
+ 
+  grant insert,delete,update on circuit_pas_cher_m to nathan_roth;
+
+revoke select on circuit_pas_cher_m from nathan_roth;
+
+select distinct table_name, table_schema, privilege from all_tab_privs where grantee='MORGANERITTER';
+
+
